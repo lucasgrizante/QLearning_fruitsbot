@@ -4,10 +4,16 @@ var gamma = 0.4;
 var epsilon = 1;
 var epsilonDecrement = 0.0005;
 
+/**
+ * @return object {x, y};
+ */
 function getMyPosition() {
     return { x: get_my_x(), y: get_my_y() };
 }
 
+/**
+ * @return object {board, myPos};
+ */
 function getCurrentState() {
     return {
         board: get_board(),
@@ -15,19 +21,22 @@ function getCurrentState() {
     };
 }
 
+/**
+ * @return String StringBit object to represent a object key;
+ */
 function getQTableKeyForState(state) {
-    var s = "board: ";
-    for (var x = 0; x < state.board.length; x++) {
-        s = s + "{";
-        for (var y = 0; y < state.board[x].length; y++) {
-            s = s + "[x=" + x + ", y=" + y + ",v=" + state.board[x][y] + "]" + (y === state.board[x].length - 1 ? "," : "");
+    var s = "";
+    for (var y = 0; y < state.board.length; y++) {
+        for (var x = 0; x < state.board.length; x++) {
+            s+= (state.myPos.x === x && state.myPos.y === y) ? state.board[x][y]+5 : state.board[x][y];
         }
-        s = s + "}" + (x === state.board.length - 1 ? ";" : ",");
     }
-    s = s + "player: {x=" + state.myPos.x + ", y=" + state.myPos.y + "};"
     return s;
 }
 
+/**
+ * @return array with points for each action in current state
+ */
 function getActionsArrayForState(state) {
     return QTable.get(getQTableKeyForState(state));
 }
@@ -37,6 +46,9 @@ function getActionsArrayForState(state) {
 // 2 = banana
 // 1 = maça
 
+/**
+ * @return reward to be given for that action
+ */
 function getRewardForAction(choose_action) {
     var board = get_board();
     var R;
@@ -95,6 +107,11 @@ function getRewardForAction(choose_action) {
     return R;
 }
 
+/**
+ * It must:
+ * Find the highest Q value for that state
+ * @return object {value, index};
+ */
 function getMaxQ() {
     var state = getCurrentState();
     var QTableLine = getActionsArrayForState(state);
@@ -118,8 +135,6 @@ var TAKE = 5;
 var PASS = 6;
 */
 function make_move() {
-    //console.log("******************************************");
-
     var choose_action = PASS;
     var oldQValues = getActionsArrayForState(getCurrentState());
     if (oldQValues === undefined) {
