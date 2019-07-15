@@ -115,15 +115,22 @@ function getRewardForAction(choose_action) {
 function getMaxQ() {
     var state = getCurrentState();
     var QTableLine = getActionsArrayForState(state);
-    var higherValue = QTableLine[0];
-    var higherIndex = 0;
+    var highestValue = QTableLine[0];
+    // find highest value/index
     for (var i = 1; i < QTableLine.length; i++) {
-        if (QTableLine[i] > higherValue) {
-            higherValue = QTableLine[i];
-            higherIndex = i;
+        if (QTableLine[i] > highestValue) {
+            highestValue = QTableLine[i];
         }
     }
-    return { value: higherValue, index: higherIndex };
+    // random between indexes that contains highest value (truly random)
+    var indexes = [];
+    for (var i = 0; i < QTableLine.length; i++) {
+        if (QTableLine[i] === highestValue) {
+            indexes.push(i);
+        }
+    }
+    var highestIndex = indexes[Math.floor(Math.random() * (indexes.length))]; 
+    return { value: highestValue, index: highestIndex };
 }
 
 /*
