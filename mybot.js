@@ -28,7 +28,7 @@ function getQTableKeyForState(state) {
     var s = "";
     for (var y = 0; y < state.board.length; y++) {
         for (var x = 0; x < state.board.length; x++) {
-            s+= (state.myPos.x === x && state.myPos.y === y) ? state.board[x][y]+5 : state.board[x][y];
+            s += (state.myPos.x === x && state.myPos.y === y) ? state.board[x][y] + 5 : state.board[x][y];
         }
     }
     return s;
@@ -129,7 +129,7 @@ function getMaxQ() {
             indexes.push(i);
         }
     }
-    var highestIndex = indexes[Math.floor(Math.random() * (indexes.length))]; 
+    var highestIndex = indexes[Math.floor(Math.random() * (indexes.length))];
     return { value: highestValue, index: highestIndex };
 }
 
@@ -141,17 +141,13 @@ var SOUTH = 4;
 var TAKE = 5;
 var PASS = 6;
 */
-function make_move() {
+function make_move(train_mode) {
     var choose_action = PASS;
     var oldQValues = getActionsArrayForState(getCurrentState());
     if (oldQValues === undefined) {
         QTable.set(getQTableKeyForState(getCurrentState()), [0, 0, 0, 0, 0, 0]); // 6 possible actions
         oldQValues = getActionsArrayForState(getCurrentState());
     }
-
-    // Update QTable
-
-
     /**
      * TODO:
      * Use episilon to randomly explorate
@@ -160,15 +156,18 @@ function make_move() {
     var maxQ = getMaxQ();
     choose_action = maxQ.index + 1;
 
-    var newQValues = oldQValues;
-    newQValues[choose_action - 1] = oldQValues[choose_action - 1]
-        + alpha * (getRewardForAction(choose_action) + gamma * maxQ.value - oldQValues[choose_action - 1]);
-    // set values for current state, based on choose action:
-    QTable.set(
-        getQTableKeyForState(getCurrentState()),
-        newQValues
-    );
-    // end Update QTable
+    // Update QTable if training
+    if (train_mode) {
+        var newQValues = oldQValues;
+        newQValues[choose_action - 1] = oldQValues[choose_action - 1]
+            + alpha * (getRewardForAction(choose_action) + gamma * maxQ.value - oldQValues[choose_action - 1]);
+        // set values for current state, based on choose action:
+        QTable.set(
+            getQTableKeyForState(getCurrentState()),
+            newQValues
+        );
+        // end Update QTable
+    }
     return choose_action;
 }
 
