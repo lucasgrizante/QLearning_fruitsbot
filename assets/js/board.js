@@ -111,9 +111,20 @@ var Board = {
         // SimpleBot currently doesn't need any sort of init, but if it did, it'd be called here too
     },
     processMove: function () {
+        // QLearning
+        var currentState = getCurrentState();
+        var currentStateKey = getQTableKeyForState(currentState);
+        var currentStateValues = getActionsArrayForState(currentState);
+        if(GamePlay.show_logs) console.log("current state values: " + currentStateValues);
+        // End QLearning
         Board.move_num++;
         var move_start = new Date().getTime();
         var myMove = make_move(GamePlay.train_mode);
+ 
+        // QLearning
+        var reward = getRewardForAction(myMove, currentState);
+        if(GamePlay.show_logs) console.log("reward: " + reward);
+        // End QLearning
         var elapsed = ((new Date().getTime() - move_start) / 1000).toFixed(2);
         console.log("[" + Board.move_num + "] elapsed time: " + elapsed + "s");
         var simpleBotMove = SimpleBot.makeMove();
@@ -175,6 +186,21 @@ var Board = {
         Board.history[Board.myX][Board.myY] |= 1;
         Board.history[Board.oppX][Board.oppY] |= 2;
 
+        // QLearning
+        if (GamePlay.train_mode) {
+            if(GamePlay.show_logs) console.log("next state values: " + getActionsArrayForState(getCurrentState()));
+            var maxQ = getMaxQ(getCurrentState()); // After moving
+            var newQValues = currentStateValues;
+            newQValues[myMove - 1] = currentStateValues[myMove - 1]
+                + alpha * (reward + gama * maxQ.value - currentStateValues[myMove - 1]);
+            QTable.set(
+                currentStateKey,
+                newQValues
+            );
+            if(GamePlay.show_logs) console.log("updated old state values: " + newQValues);
+        }
+        if(GamePlay.show_logs) console.log("__________________________");
+        // End QLearning
     },
     checkGameOver: function () {
         var item_type_score_max = 0,

@@ -4,6 +4,7 @@
     <link rel="stylesheet" type="text/css" href="assets/css/drawgame.css"/>
     <link rel="stylesheet" type="text/css" href="assets/css/qlearning.css"/>
     <meta charset='UTF-8'>
+    <script src="QLearningHelper.js"></script>
     <script src="assets/js/seedrandom.js"></script>
     <script src="assets/js/board.js"></script>
     <script src="assets/js/grid.js"></script>
@@ -27,6 +28,8 @@
             <label>Train Cycles: </label><input type="text" id="train_total_cycles"/><button id="set_train_cycles">Set</button>
             <br>
             <span class=""><label><input type="checkbox" id="check_trainmode" checked/> Train agent</label></span>
+            <br>
+            <span class=""><label><input type="checkbox" id="check_logs" checked/> Show Logs</label></span>
             <br>
             <span class="resetQTable button">Reset Q-Table</span>
         </div>

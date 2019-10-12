@@ -25,11 +25,19 @@ var GamePlay = {
             } else {
                 GamePlay.train_mode = false;
             }
-            Board.reset();
+            //Board.reset();
+        });
+        $('#check_logs').click(function (evt) {
+            if (evt.srcElement.checked) {
+                GamePlay.show_logs = true;
+            } else {
+                GamePlay.show_logs = false;
+            }
         });
 
         GamePlay.show_breadcrumbs = false;
         GamePlay.train_mode = true;
+        GamePlay.show_logs = true;
         GamePlay.train_cycles = 1000;
         GamePlay.executed_cycles = 0;
         GamePlay.number_of_steps = [];
@@ -97,7 +105,7 @@ var GamePlay = {
         var ctx = GamePlay.canvas.getContext('2d');
         ctx.clearRect(0, 0, GamePlay.canvas.width, GamePlay.canvas.height);
         GamePlay.drawItems(ctx, Board.board, Board.history);
-        //GamePlay.drawPlayerTwo(ctx, Board.board);
+        GamePlay.drawPlayerTwo(ctx, Board.board);
         GamePlay.drawPlayerOne(ctx, Board.board);
         GamePlay.displayScore(ctx, Board.board);
         GamePlay.displayQLearning(ctx, Board.board);
@@ -133,7 +141,7 @@ var GamePlay = {
                 return;
             }
             Board.processMove();
-            setTimeout(function () { GamePlay.draw(); }, 0);
+            setTimeout(function () { GamePlay.draw(); }, GamePlay.train_mode ? 0 : 400);
         } else {
             GamePlay.mode = "pause";
         }

@@ -1,0 +1,25 @@
+#custom {
+    margin-top: 10px;
+    padding: 10px;
+    width: 400px;
+    border-radius: 3px;
+    border: 1;
+    background: lightgray;
+}
+
+#custom h3 {
+    text-align: center;
+}
+
+#custom input[type=text] {
+    width: 100px;
+    margin-right: 10px;
+}
+
+.resetQTable {
+    background: rgb(128, 10, 10);
+}
+
+.resetQTable:hover, .resetQTable:active {
+    background: rgb(107, 7, 7);
+}
