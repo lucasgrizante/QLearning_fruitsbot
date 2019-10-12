@@ -1,3 +1,6 @@
+/**
+ * Function that is executed every step 
+ */
 function make_move(train_mode) {
     /* Execute random movement if actual cycle is less than 200 and a
     random number is less than episilon variable (defined on QLearningHelper) */ 
@@ -16,4 +19,5 @@ function make_move(train_mode) {
 function default_board_number() {
     return 669462;
 }
+
 

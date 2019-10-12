@@ -1,18 +1,20 @@
-var alpha = 0.5;
-var gama = 0.8;
+// Variables
+var alpha = 0.3;
+var gama = 0.3;
 var episilon = 0.1;
 
+// Data structure to store QTable
 var QTable = new Map();
 
 /**
- * @return object {x, y};   
+ * @return {x, y};   
  */
 function getMyPosition() {
     return { x: get_my_x(), y: get_my_y() };
 }
 
 /**
- * @return object {board, myPos};
+ * @return {board, myPos};
  */
 function getCurrentState() {
     return {
@@ -22,7 +24,7 @@ function getCurrentState() {
 }
 
 /**
- * @return String StringBit to represent a object key;
+ * @return StringBit to be used on QTable as key
  */
 function getQTableKeyForState(state) {
     var s = "";
@@ -35,7 +37,7 @@ function getQTableKeyForState(state) {
 }
 
 /**
- * @return array with points for each action in current state
+ * @return array with points for each action in determined state
  */
 function getActionsArrayForState(state) {
     var array = QTable.get(getQTableKeyForState(state));
@@ -47,7 +49,7 @@ function getActionsArrayForState(state) {
 }
 
 /**
- * Check if fruit is needed based on it's ID and amount on map
+ * Check if fruit is still needed
  */
 function isFruitNeeded(fruit) {
     var myCount = get_my_item_count(fruit);
@@ -55,7 +57,10 @@ function isFruitNeeded(fruit) {
     return !(myCount > totalCount/2)
 }
 
-
+/**
+ * return reward for choosen action
+ * Note: Choose action must be between 1 and 6
+ */
 function getRewardForAction(choose_action, state) {
     if(GamePlay.show_logs) console.log("call getRewardForAction");
     var R = 0;
@@ -94,7 +99,10 @@ function getRewardForAction(choose_action, state) {
     return R;
 }
 
-
+/**
+ * Checks Q-Table looking for the highest point number of determined state
+ * Return {value: highestValue, index: indexOfHighestValue}
+ */
 function getMaxQ(state) {
     var QTableLine = getActionsArrayForState(state);
     var highestValue = QTableLine[0];
