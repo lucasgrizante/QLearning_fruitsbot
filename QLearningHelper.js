@@ -1,7 +1,7 @@
 // Variables
-var alpha = 0.3;
-var gama = 0.3;
-var episilon = 0.1;
+var alpha = 0.9;
+var gama = 0.9;
+var epsilon = 0.1;
 
 // Data structure to store QTable
 var QTable = new Map();

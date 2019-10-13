@@ -3,8 +3,8 @@
  */
 function make_move(train_mode) {
     /* Execute random movement if actual cycle is less than 200 and a
-    random number is less than episilon variable (defined on QLearningHelper) */ 
-    if(train_mode && GamePlay.executed_cycles < 200 && Math.random() < episilon) {
+    random number is less than epsilon variable (defined on QLearningHelper) */ 
+    if(train_mode && GamePlay.executed_cycles < 200 && Math.random() < epsilon) {
         if(GamePlay.show_logs) console.log("Choosing random action");
         return Math.ceil(Math.random() * 6)
     }
