@@ -1,5 +1,5 @@
 // this is your opponent in the real-time player to use for debugging 
-
+var botmovements = 0;
 var SimpleBot = {
     makeMove: function() {
        // to disable to opponent, uncomment the next line
@@ -21,7 +21,8 @@ var SimpleBot = {
                SimpleBot.considered[i][j] = 0;
            }
        }
-
+       botmovements = botmovements + 1;
+       console.log(botmovements);
        // let's find the move that will start leading us to the closest item
        return SimpleBot.findMove(new node(get_opponent_x(), get_opponent_y(), -1));
     },

@@ -132,10 +132,12 @@ var GamePlay = {
                 if (GamePlay.train_mode) {
                     GamePlay.executed_cycles++;
                     GamePlay.number_of_steps.push(Board.move_num);
-                    console.log(GamePlay.number_of_steps);
+                    if(GamePlay.show_logs) console.log(GamePlay.number_of_steps);
                     if (GamePlay.executed_cycles < GamePlay.train_cycles) {
                         Board.reset();
                         GamePlay.mode = "play"; Board.processMove(); GamePlay.draw();
+                    } else {
+                        if(GamePlay.show_logs) console.log("alpha = " + alpha + ", gama = " + gama);
                     }
                 }
                 return;

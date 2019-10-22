@@ -1,6 +1,6 @@
 // Variables
-var alpha = 0.9;
-var gama = 0.9;
+var alpha = 0.7;
+var gama = 0.3;
 var epsilon = 0.1;
 
 // Data structure to store QTable
@@ -83,7 +83,7 @@ function getRewardForAction(choose_action, state) {
         if(GamePlay.show_logs) console.log("isFruitNeeded: " + isFruitNeeded(fruit));
         if(fruit === 0 || (fruit && !isFruitNeeded(fruit))) {
             R = -30;
-            if(GamePlay.show_logs) console.log("nao devia pegar fruta");
+            if(GamePlay.show_logs) console.log("Shouldn't get fruit");
         } else {
             R = 300 * (1/get_total_item_count(fruit));
         }
